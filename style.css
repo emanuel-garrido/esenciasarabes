@@ -5,7 +5,7 @@
   --purple:#4A2060;--purple-light:#7B3FA0;--green:#4CAF50;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
 body{background:var(--black);color:var(--text);font-family:'Raleway',sans-serif;font-weight:300;overflow-x:hidden;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--black);}::-webkit-scrollbar-thumb{background:var(--gold-dark);}
 
@@ -98,7 +98,7 @@ nav{background:var(--dark);border-bottom:1px solid rgba(201,168,76,0.1);}
 .pinfo{padding:20px 18px 18px;}
 .pbrand{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
 .pname{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);line-height:1.3;margin-bottom:8px;}
-.pnotes{font-size:15px;color:var(--cream-dim);margin-bottom:12px;line-height:1.7;}
+.pnotes{font-size:14px;color:var(--text-dim);margin-bottom:12px;line-height:1.6;}
 .ptags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;}
 .tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);border:1px solid rgba(201,168,76,.2);padding:3px 7px;}
 .ppricing{margin-bottom:14px;}
@@ -193,27 +193,8 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
 .btn-mwa svg{width:20px;height:20px;fill:#fff;flex-shrink:0;}
 .mdiscl{font-size:12px;color:var(--cream-dim);text-align:center;margin-top:12px;line-height:1.6;}
 
-@media(max-width:900px){
-  .features-inner{grid-template-columns:repeat(2,1fr);}
-  .about-inner{grid-template-columns:1fr;}
-  .about-visual{max-width:340px;margin:0 auto;}
-  .how-steps{grid-template-columns:repeat(2,1fr);}
-  .footer-inner{grid-template-columns:1fr 1fr;}
-  .footer-brand{grid-column:1/-1;}
-}
-@media(max-width:640px){
-  .header-inner{padding:0 16px;}
-  .search-bar{max-width:170px;}
-  .btn-wa-hdr span{display:none;}
-  .hero-content{padding:0 24px;}
-  .hero-logo-bg{display:none;}
-  .features-inner{grid-template-columns:1fr;}
-  .feature-item{border-right:none;border-bottom:1px solid rgba(201,168,76,.1);}
-  .how-steps{grid-template-columns:1fr;}
-  .footer-inner{grid-template-columns:1fr;gap:36px;}
-  .products-section{padding:60px 16px;}
-  .wa-float{bottom:20px;right:20px;width:52px;height:52px;}
-}
+
+
 /* ─── TESTIMONIOS ─── */
 .testimonios-section{
   padding:100px 30px;
@@ -305,10 +286,7 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
   letter-spacing:1px;
 }
 
-@media(max-width:640px){
-  .testimonios-section{padding:60px 16px;}
-  .testimonios-grid{grid-template-columns:1fr;}
-}
+
 
 /* ─── BANNER 12 CUOTAS (hero) ─── */
 .btn-outline svg { vertical-align: middle; margin-right: 4px; }
@@ -382,10 +360,7 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
 }
 .politica-list li strong { color: var(--cream); }
 
-@media (max-width: 768px) {
-  .politicas-inner { grid-template-columns: 1fr; }
-  .politicas-section { padding: 60px 16px; }
-}
+
 /* ================================================================
    MENÚ HAMBURGUESA
    ================================================================ */
@@ -422,36 +397,177 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* Solo en mobile mostrar hamburguesa y ocultar links del nav */
-@media(max-width:768px){
-  .nav-inner a:not(.hamburger) { display: none; }
-  .hamburger { display: flex; }
-  .nav-inner { justify-content: flex-end; padding: 0 16px; min-height: 46px; }
 
-  /* Menú desplegable */
-  .nav-mobile {
-    display: flex;
-    flex-direction: column;
-    background: var(--dark);
-    border-top: 1px solid rgba(201,168,76,.15);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
+
+/* ================================================================
+   RESPONSIVE — TABLET (≤ 900px)
+   ================================================================ */
+@media(max-width:900px){
+  .features-inner{grid-template-columns:repeat(2,1fr);}
+  .about-inner{grid-template-columns:1fr;}
+  .about-visual{max-width:340px;margin:0 auto;}
+  .how-steps{grid-template-columns:repeat(2,1fr);}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+  .footer-brand{grid-column:1/-1;}
+  .politicas-inner{grid-template-columns:1fr;}
+  .politicas-section{padding:60px 20px;}
+  .testimonios-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ================================================================
+   RESPONSIVE — MOBILE (≤ 768px)
+   ================================================================ */
+@media(max-width:768px){
+
+  /* ── Overflow fix global ── */
+  html,body{overflow-x:hidden;max-width:100vw;}
+  section,header,nav,footer,.topbar{max-width:100%;overflow-x:hidden;}
+
+  /* ── Header ── */
+  .header-inner{padding:0 14px;height:62px;gap:10px;}
+  .logo-img{width:44px;height:44px;}
+  .logo-name{font-size:12px;letter-spacing:0;}
+  .logo-sub{font-size:7px;letter-spacing:2px;}
+  .search-bar{flex:1;max-width:none;}
+  .search-bar input{font-size:13px;padding:9px 40px 9px 14px;}
+  .btn-wa-hdr span{display:none;}
+  .btn-wa-hdr{padding:9px 12px;}
+
+  /* ── Hamburguesa ── */
+  .nav-inner a:not(.hamburger){display:none;}
+  .hamburger{display:flex;}
+  .nav-inner{justify-content:flex-end;padding:0 14px;min-height:44px;}
+  .nav-mobile{
+    display:flex;flex-direction:column;
+    background:var(--dark);
+    border-top:1px solid rgba(201,168,76,.15);
+    max-height:0;overflow:hidden;
+    transition:max-height 0.35s ease;
   }
-  .nav-mobile.open { max-height: 400px; }
-  .nav-mobile a {
-    padding: 16px 24px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--cream-dim);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201,168,76,.06);
-    transition: background 0.2s, color 0.2s;
+  .nav-mobile.open{max-height:420px;}
+  .nav-mobile a{
+    padding:15px 22px;font-size:12px;font-weight:600;
+    letter-spacing:2px;text-transform:uppercase;
+    color:var(--cream-dim);text-decoration:none;
+    border-bottom:1px solid rgba(201,168,76,.06);
+    transition:background .2s,color .2s;
   }
-  .nav-mobile a:hover, .nav-mobile a:active {
-    background: rgba(201,168,76,.08);
-    color: var(--gold);
-  }
-  .nav-mobile a:last-child { border-bottom: none; }
+  .nav-mobile a:hover,.nav-mobile a:active{background:rgba(201,168,76,.08);color:var(--gold);}
+  .nav-mobile a:last-child{border-bottom:none;}
+
+  /* ── Hero ── */
+  .hero{min-height:72vh;}
+  .hero-content{padding:0 18px;width:100%;box-sizing:border-box;}
+  .hero-logo-bg{display:none;}
+  .hero-eyebrow{font-size:9px;letter-spacing:4px;margin-bottom:14px;}
+  .hero-ctas{gap:10px;flex-direction:column;align-items:flex-start;}
+  .btn-primary,.btn-outline{padding:13px 24px;font-size:11px;letter-spacing:2px;width:100%;justify-content:center;}
+
+  /* ── Features ── */
+  .features-inner{grid-template-columns:1fr 1fr;}
+  .feature-item{padding:16px 12px;border-right:none;border-bottom:1px solid rgba(201,168,76,.1);}
+  .fi-label{font-size:9px;letter-spacing:1px;}
+  .fi-desc{font-size:11px;}
+
+  /* ── Productos ── */
+  .products-section{padding:48px 14px;}
+  .pgrid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .pinfo{padding:12px 10px 10px;}
+  .pname{font-size:14px;}
+  .pnotes{font-size:13px;}
+  .price-main{font-size:20px;}
+  .btn-comprar{font-size:10px;letter-spacing:1px;padding:10px;}
+  .ptags{gap:4px;}
+  .tag{font-size:8px;padding:2px 5px;}
+
+  /* ── Filtros ── */
+  .filters{gap:6px;padding:0 2px;flex-wrap:wrap;}
+  .fbtn{padding:7px 12px;font-size:10px;letter-spacing:1px;}
+
+  /* ── About ── */
+  .about-section{padding:56px 18px;}
+  .about-visual{display:none;}
+  .about-text p{font-size:15px;}
+  .about-stats{gap:20px;flex-wrap:wrap;}
+  .stat-num{font-size:22px;}
+  .stat-label{font-size:9px;}
+
+  /* ── Cómo comprar ── */
+  .how-section{padding:56px 14px;}
+  .how-steps{grid-template-columns:1fr 1fr;gap:1px;}
+  .how-step{padding:26px 16px;}
+  .step-num{font-size:30px;}
+  .step-title{font-size:14px;}
+  .step-desc{font-size:12px;}
+  .pay-methods{gap:6px;flex-wrap:wrap;}
+  .ppill{padding:8px 12px;font-size:11px;}
+
+  /* ── Testimonios ── */
+  .testimonios-section{padding:56px 14px;}
+  .testimonios-grid{grid-template-columns:1fr;}
+  .testimonio-texto{font-size:15px;}
+
+  /* ── Políticas ── */
+  .politicas-section{padding:48px 14px;}
+  .politicas-inner{grid-template-columns:1fr;gap:18px;}
+  .politica-card{padding:26px 20px;}
+  .politica-title{font-size:16px;}
+  .politica-list li{font-size:13px;}
+
+  /* ── Contacto ── */
+  .contact-section{padding:56px 14px;}
+  .contact-inner p{font-size:15px;}
+  .contact-actions{flex-direction:column;align-items:center;gap:12px;}
+  .btn-wa-big,.btn-ig{padding:14px 22px;font-size:12px;letter-spacing:1px;width:100%;justify-content:center;box-sizing:border-box;}
+
+  /* ── Modal ── */
+  .modal-overlay{padding:0;align-items:flex-end;}
+  .modal{max-height:90vh;width:100%;}
+  .mhdr{padding:18px 16px 12px;}
+  .mhdr h3{font-size:14px;}
+  .mbody{padding:14px 16px;}
+  .mimg{height:160px;}
+  .mprice{font-size:26px;}
+  .mpay-info{font-size:12px;padding:12px 14px;}
+
+  /* ── Footer ── */
+  .footer-inner{grid-template-columns:1fr;gap:28px;}
+  footer{padding:40px 18px 24px;}
+  .footer-bottom{flex-direction:column;text-align:center;gap:8px;}
+  .footer-name{font-size:14px;}
+
+  /* ── WA float ── */
+  .wa-float{bottom:18px;right:16px;width:50px;height:50px;}
+  .wa-float svg{width:24px;height:24px;}
+}
+
+/* ================================================================
+   RESPONSIVE — MOBILE CHICO (≤ 480px)
+   ================================================================ */
+@media(max-width:480px){
+  /* 1 columna */
+  .pgrid{grid-template-columns:1fr;gap:14px;}
+  .pimg-wrap{aspect-ratio:4/3;}
+  .pname{font-size:16px;}
+  .pnotes{font-size:14px;}
+  .price-main{font-size:22px;}
+
+  /* Features 1 columna */
+  .features-inner{grid-template-columns:1fr;}
+
+  /* Filtros con scroll */
+  .filters{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;-webkit-overflow-scrolling:touch;padding-bottom:4px;}
+  .fbtn{flex-shrink:0;}
+
+  /* Pasos 1 columna */
+  .how-steps{grid-template-columns:1fr;}
+
+  /* Header más compacto */
+  .header-inner{height:56px;}
+  .logo-name{font-size:11px;}
+  .logo-img{width:38px;height:38px;}
+
+  /* Modal pantalla completa */
+  .modal-overlay{padding:0;}
+  .modal{max-height:100vh;}
 }
