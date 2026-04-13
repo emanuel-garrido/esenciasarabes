@@ -5,7 +5,7 @@ const WA='5491131098238';
 // ============================================================
 const IMGS={
   logo:'Imagenes/Logo.png',
-  p16:'Imagenes/Otros Productos/Kit Karseell MASC. 500ml. + OIL 50ml..jpeg',
+  p16:'Imagenes/Otros Productos/Kit Karseell 500ml.jpeg',
   p17:'Imagenes/Otros Productos/Capsula masc. de 12ml. Caja x 8 uni. Karseell.jpeg',
   p18:'Imagenes/Otros Productos/Travel-set.jpeg',
   p19:'Imagenes/Otros Productos/Protector Termico Spray Karseell.jpeg',
