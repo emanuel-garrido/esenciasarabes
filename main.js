@@ -38,7 +38,6 @@ const IMGS={
 };
 
 function fmt(n){return '$'+n.toLocaleString('es-AR');}
-function fmtT(n){var d=Math.round(n*0.8);return 'Transferencia: '+fmt(d)+' (ahorrás '+fmt(n-d)+')';}
 
 
 // ============================================================
@@ -350,7 +349,7 @@ function renderProducts(){
              +'<div style="font-size:13px;color:var(--text-dim)">'+p.price2Note+': <span style="color:var(--gold);font-size:18px;font-weight:600">'+fmt(p.price2)+'</span></div>';
     } else if(p.price){
       priceH='<div class="price-main">'+fmt(p.price)+'</div>';
-      priceH+=p.priceNote?('<div class="price-special">'+p.priceNote+'</div>'):('<div class="price-transfer">'+fmtT(p.price)+'</div>');
+      priceH+=p.priceNote?('<div class="price-special">'+p.priceNote+'</div>'):'';
     }
     var card=document.createElement('div');
     card.className='pcard';
@@ -395,7 +394,7 @@ function openM(id){
   var mp=g('mPrice'),mt=g('mTransfer'),ms=g('mSpecial');
   if(mp){
     if(p.price2){mp.innerHTML=fmt(p.price)+' / '+fmt(p.price2);if(mt)mt.textContent='Transferencia desde '+fmt(Math.round(p.price*0.8));if(ms)ms.textContent='';}
-    else if(p.price){mp.textContent=fmt(p.price);if(mt)mt.textContent=p.priceNote?'':fmtT(p.price);if(ms)ms.textContent=p.priceNote||'';}
+    else if(p.price){mp.textContent=fmt(p.price);if(mt)mt.textContent='';if(ms)ms.textContent=p.priceNote||'';}
   }
   var wb=g('mWaBtn');if(wb)wb.href=waLink(p);
   g('modalOverlay').classList.add('active');

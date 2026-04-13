@@ -309,3 +309,80 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
   .testimonios-section{padding:60px 16px;}
   .testimonios-grid{grid-template-columns:1fr;}
 }
+
+/* ─── BANNER 12 CUOTAS (hero) ─── */
+.btn-outline svg { vertical-align: middle; margin-right: 4px; }
+
+/* ─── SECCIÓN ENVÍOS Y POLÍTICAS ─── */
+.politicas-section {
+  padding: 80px 30px;
+  background: var(--dark2);
+  border-top: 1px solid rgba(201,168,76,.1);
+  border-bottom: 1px solid rgba(201,168,76,.1);
+}
+.politicas-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.politica-card {
+  background: var(--dark);
+  border: 1px solid rgba(201,168,76,.1);
+  padding: 40px 36px;
+  transition: border-color .3s;
+}
+.politica-card:hover { border-color: rgba(201,168,76,.3); }
+.politica-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(201,168,76,.1);
+  border: 1px solid rgba(201,168,76,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.politica-icon svg { width: 22px; height: 22px; stroke: var(--gold); }
+.politica-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.politica-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--cream-dim);
+  margin-bottom: 20px;
+}
+.politica-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.politica-list li {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  padding-left: 18px;
+  position: relative;
+}
+.politica-list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--gold-dark);
+  font-size: 9px;
+  top: 4px;
+}
+.politica-list li strong { color: var(--cream); }
+
+@media (max-width: 768px) {
+  .politicas-inner { grid-template-columns: 1fr; }
+  .politicas-section { padding: 60px 16px; }
+}
