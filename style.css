@@ -98,7 +98,7 @@ nav{background:var(--dark);border-bottom:1px solid rgba(201,168,76,0.1);}
 .pinfo{padding:20px 18px 18px;}
 .pbrand{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
 .pname{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);line-height:1.3;margin-bottom:8px;}
-.pnotes{font-size:14px;color:var(--text-dim);margin-bottom:12px;line-height:1.7;}
+.pnotes{font-size:15px;color:var(--cream-dim);margin-bottom:12px;line-height:1.7;}
 .ptags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;}
 .tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);border:1px solid rgba(201,168,76,.2);padding:3px 7px;}
 .ppricing{margin-bottom:14px;}
@@ -180,18 +180,18 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
 .mbody{padding:24px 28px;}
 .mimg{width:100%;height:240px;object-fit:contain;background:var(--dark3);margin-bottom:20px;padding:12px;}
 .msec{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
-.mnotes{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text-dim);line-height:1.8;margin-bottom:8px;}
-.mideal{font-size:12px;color:var(--cream-dim);font-style:italic;margin-bottom:22px;line-height:1.6;}
+.mnotes{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream-dim);line-height:1.8;margin-bottom:8px;}
+.mideal{font-size:13px;color:var(--text);font-style:italic;margin-bottom:22px;line-height:1.6;}
 .mprice-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);margin-bottom:18px;}
 .mprice{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:var(--gold);line-height:1;}
 .mprice-transfer{font-size:12px;color:var(--green);margin-top:4px;}
 .mprice-special{font-size:12px;color:#E0A040;margin-top:4px;font-style:italic;}
-.mpay-info{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.1);padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--text-dim);line-height:1.7;}
+.mpay-info{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.1);padding:14px 16px;margin-bottom:18px;font-size:13px;color:var(--cream-dim);line-height:1.7;}
 .mpay-info strong{color:var(--gold);}
 .btn-mwa{width:100%;background:#25D366;color:#fff;border:none;padding:16px;font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;transition:background .2s;text-decoration:none;}
 .btn-mwa:hover{background:#128C7E;}
 .btn-mwa svg{width:20px;height:20px;fill:#fff;flex-shrink:0;}
-.mdiscl{font-size:11px;color:var(--text-dim);text-align:center;margin-top:12px;line-height:1.6;}
+.mdiscl{font-size:12px;color:var(--cream-dim);text-align:center;margin-top:12px;line-height:1.6;}
 
 @media(max-width:900px){
   .features-inner{grid-template-columns:repeat(2,1fr);}
@@ -385,4 +385,73 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
 @media (max-width: 768px) {
   .politicas-inner { grid-template-columns: 1fr; }
   .politicas-section { padding: 60px 16px; }
+}
+/* ================================================================
+   MENÚ HAMBURGUESA
+   ================================================================ */
+
+/* Por defecto nav-mobile SIEMPRE oculto en desktop */
+.nav-mobile {
+  display: none;
+}
+
+/* Botón hamburguesa — oculto en desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+  z-index: 1001;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Solo en mobile mostrar hamburguesa y ocultar links del nav */
+@media(max-width:768px){
+  .nav-inner a:not(.hamburger) { display: none; }
+  .hamburger { display: flex; }
+  .nav-inner { justify-content: flex-end; padding: 0 16px; min-height: 46px; }
+
+  /* Menú desplegable */
+  .nav-mobile {
+    display: flex;
+    flex-direction: column;
+    background: var(--dark);
+    border-top: 1px solid rgba(201,168,76,.15);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .nav-mobile.open { max-height: 400px; }
+  .nav-mobile a {
+    padding: 16px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,.06);
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-mobile a:hover, .nav-mobile a:active {
+    background: rgba(201,168,76,.08);
+    color: var(--gold);
+  }
+  .nav-mobile a:last-child { border-bottom: none; }
 }

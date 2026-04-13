@@ -49,13 +49,28 @@
 
 <nav>
   <div class="nav-inner">
+    <!-- Links desktop -->
     <a href="#inicio" class="active">Inicio</a>
     <a href="#fragancias">Fragancias</a>
     <a href="capilar.html">Belleza Capilar</a>
     <a href="#quienes-somos">Quiénes Somos</a>
     <a href="#como-comprar">Cómo Comprar</a>
     <a href="#contacto">Contacto</a>
-    
+    <!-- Botón hamburguesa (solo mobile) -->
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <!-- Menú desplegable mobile -->
+  <div class="nav-mobile" id="navMobile">
+    <a href="#inicio" onclick="closeMenu()">Inicio</a>
+    <a href="#fragancias" onclick="closeMenu()">Fragancias</a>
+    <a href="capilar.html" onclick="closeMenu()">Belleza Capilar</a>
+    <a href="#quienes-somos" onclick="closeMenu()">Quiénes Somos</a>
+    <a href="#como-comprar" onclick="closeMenu()">Cómo Comprar</a>
+    <a href="#contacto" onclick="closeMenu()">Contacto</a>
   </div>
 </nav>
 
@@ -338,5 +353,23 @@
 </div>
 
 <script src="main.js"></script>
+
+<script>
+function toggleMenu(){
+  var nav = document.getElementById('navMobile');
+  var btn = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('navMobile').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+// Cerrar al hacer scroll
+window.addEventListener('scroll', function(){
+  document.getElementById('navMobile').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+});
+</script>
 </body>
 </html>
