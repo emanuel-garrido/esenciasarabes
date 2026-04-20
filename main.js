@@ -193,7 +193,7 @@ const PRODUCTS=[
     brand: 'Afnan',
     cat: 'hombre',       // 'mujer' | 'hombre' | 'unisex'
     price: 73500,      // precio 60ml
-    priceNote: '60ml',
+    priceNote: '100ml',
     price2: 80550,     // precio 100ml
     price2Note: '100ml',
     notes: 'Manzana, canela, lavanda, flor de azahar y vainilla. Un aroma magnético y seductor con manzana, canela y lavanda.',
