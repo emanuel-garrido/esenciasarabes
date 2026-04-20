@@ -1,23 +1,28 @@
-// ============================================================
-// NUMERO DE WHATSAPP DEL NEGOCIO
-// Cambia solo el numero, sin espacios ni simbolos
-// ============================================================
 const WA='5491131098238';
 
+// ============================================================
+// PRECIOS: listPrice = precio de lista (+40%), salePrice = con 35% OFF, mayorPrice = mayorista
+// ============================================================
+const PRICE_MAP={
+  1:{list:116550,sale:75758,mayor:87413},
+  2:{list:116550,sale:75758,mayor:87413},
+  3:{list:116550,sale:75758,mayor:87413},
+  4:{list:116550,sale:75758,mayor:87413},
+  5:{list:87885,sale:57125,mayor:65914},
+  6:{list:87885,sale:57125,mayor:65914},
+  7:{list:87885,sale:57125,mayor:65914},
+  8:{list:112770,sale:73301,mayor:84578},
+  9:{list:87360,sale:56784,mayor:65520},
+  10:{list:100380,sale:65247,mayor:75285},
+  11:{list:103467,sale:67254,mayor:77600},
+  12:{list:80325,sale:52211,mayor:60244},
+  13:{list:119070,sale:77396,mayor:89303},
+  14:{list:96600,sale:62790,mayor:72450},
+  15:{list:490000,sale:318500,mayor:367500},
+};
 
-// ============================================================
-// SECCION 1: IMAGENES DE CADA PRODUCTO
-// ------------------------------------------------------------
-// Cada linea conecta un codigo interno (p1, p2, etc.)
-// con el archivo de imagen real en tu carpeta Imagenes/
-//
-// COMO EDITAR:
-//   Cambia solo la parte despues de los dos puntos :
-//   Ejemplo: p1:'Imagenes/MiPerfume.jpeg'
-//
-// IMPORTANTE: el nombre debe coincidir EXACTAMENTE con
-// el archivo en la carpeta Imagenes/ (mayusculas incluidas)
-// ============================================================
+const MAYORISTA_MIN=3;
+
 const IMGS={
   logo:'Imagenes/Logo.png',
   p1:'Imagenes/Lattafa Yara Rosa Elixir.jpeg',
@@ -315,20 +320,207 @@ const PRODUCTS=[
 
 ];
 
-// ============================================================
-// NO TOCAR NADA DE AQUÍ PARA ABAJO
-// Es el motor que genera las cards automáticamente
-// ============================================================
 
-let curCat='todos',vis=8,filtered=[];
+// ============================================================
+// CARRITO
+// ============================================================
+var cart=[];
 
-function waLink(p){
-  var pt=p.price?fmt(p.price):'A consultar';
-  if(p.price2)pt+=' / '+fmt(p.price2);
-  return 'https://wa.me/'+WA+'?text='+encodeURIComponent('Hola! Quiero: '+p.name+' ('+p.brand+') Precio: '+pt+'. Tienen stock?');
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR');}
+
+function getPrice(p){
+  var pm=PRICE_MAP[p.id];
+  if(!pm)return{list:p.price,sale:p.price,mayor:p.price};
+  return pm;
 }
 
-var wasvg='<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+function getTotalQty(){
+  return cart.reduce(function(a,i){return a+i.qty;},0);
+}
+
+function isMayorista(){
+  return getTotalQty()>=MAYORISTA_MIN;
+}
+
+function getItemPrice(item){
+  var pm=PRICE_MAP[item.id];
+  if(!pm)return item.price;
+  return isMayorista()?pm.mayor:pm.sale;
+}
+
+function addToCart(id){
+  var p=PRODUCTS.filter(function(x){return x.id===id;})[0];
+  if(!p)return;
+  var existing=cart.filter(function(x){return x.id===id;})[0];
+  if(existing){existing.qty++;}
+  else{cart.push({id:p.id,name:p.name,brand:p.brand,price:p.price,imgKey:p.imgKey,qty:1});}
+  updateCartUI();
+  openCart();
+}
+
+function removeFromCart(id){
+  cart=cart.filter(function(x){return x.id!==id;});
+  updateCartUI();
+}
+
+function changeQty(id,delta){
+  var item=cart.filter(function(x){return x.id===id;})[0];
+  if(!item)return;
+  item.qty+=delta;
+  if(item.qty<=0)removeFromCart(id);
+  else updateCartUI();
+}
+
+function updateCartUI(){
+  var total=getTotalQty();
+  var mayorista=isMayorista();
+
+  // Count badge
+  document.getElementById('cartCount').textContent=total;
+  document.getElementById('cartCount').style.display=total>0?'flex':'none';
+
+  // Empty state
+  var empty=document.getElementById('cartEmpty');
+  var summary=document.getElementById('cartSummary');
+  var items=document.getElementById('cartItems');
+  if(total===0){
+    if(empty)empty.style.display='flex';
+    if(summary)summary.style.display='none';
+    return;
+  }
+  if(empty)empty.style.display='none';
+  if(summary)summary.style.display='block';
+
+  // Mayorista progress bar
+  var pct=Math.min(100,Math.round(total/MAYORISTA_MIN*100));
+  var bar=document.getElementById('mayoristaBar');
+  var txt=document.getElementById('mayoristaTxt');
+  if(bar)bar.style.width=pct+'%';
+  if(txt){
+    if(mayorista){
+      txt.innerHTML='🎉 <strong>¡Precio mayorista activo!</strong> 25% de descuento aplicado';
+      bar.style.background='var(--gold)';
+    } else {
+      var falta=MAYORISTA_MIN-total;
+      txt.innerHTML='Agregá <strong>'+falta+' unidad'+(falta>1?'es':'')+' más</strong> para precio mayorista';
+      bar.style.background='var(--purple-light)';
+    }
+  }
+
+  // Render items
+  var html='';
+  cart.forEach(function(item){
+    var pm=PRICE_MAP[item.id];
+    var unitPrice=pm?(mayorista?pm.mayor:pm.sale):item.price;
+    var listPrice=pm?pm.list:item.price;
+    var imgSrc=item.imgKey?IMGS[item.imgKey]:null;
+    var imgHtml=imgSrc
+      ?'<img src="'+imgSrc+'" alt="'+item.name+'" onerror="this.style.display=\'none\'">'
+      :'<div class="ci-img-placeholder">✦</div>';
+    html+='<div class="cart-item">'
+      +'<div class="ci-img">'+imgHtml+'</div>'
+      +'<div class="ci-info">'
+        +'<div class="ci-brand">'+item.brand+'</div>'
+        +'<div class="ci-name">'+item.name+'</div>'
+        +'<div class="ci-prices">'
+          +'<span class="ci-list">'+fmt(listPrice*item.qty)+'</span>'
+          +'<span class="ci-sale">'+fmt(unitPrice*item.qty)+'</span>'
+        +'</div>'
+        +'<div class="ci-qty">'
+          +'<button onclick="changeQty('+item.id+',-1)">−</button>'
+          +'<span>'+item.qty+'</span>'
+          +'<button onclick="changeQty('+item.id+',1)">+</button>'
+          +'<button class="ci-del" onclick="removeFromCart('+item.id+')">🗑</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  });
+  items.innerHTML=document.getElementById('cartEmpty').outerHTML+html;
+
+  // Totals
+  var subtotal=cart.reduce(function(a,item){
+    var pm=PRICE_MAP[item.id];
+    return a+(pm?pm.list:item.price)*item.qty;
+  },0);
+  var totalFinal=cart.reduce(function(a,item){
+    return a+getItemPrice(item)*item.qty;
+  },0);
+  var descuento=subtotal-totalFinal;
+
+  document.getElementById('cartSubtotal').textContent=fmt(subtotal);
+  document.getElementById('cartTotal').textContent=fmt(totalFinal);
+
+  var discRow=document.getElementById('discountRow');
+  var mayRow=document.getElementById('mayoristaRow');
+  if(mayorista){
+    if(discRow)discRow.style.display='none';
+    if(mayRow)mayRow.style.display='flex';
+  } else {
+    if(discRow){discRow.style.display='flex';document.getElementById('cartDiscount').textContent='-'+fmt(descuento);}
+    if(mayRow)mayRow.style.display='none';
+  }
+}
+
+function openCart(){
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCartDrawer(){
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function toggleCart(){
+  var drawer=document.getElementById('cartDrawer');
+  if(drawer.classList.contains('open'))closeCartDrawer();
+  else openCart();
+}
+
+function checkoutWA(){
+  if(cart.length===0)return;
+  var mayorista=isMayorista();
+  var msg='Hola! Quiero hacer el siguiente pedido:\n\n';
+  cart.forEach(function(item){
+    var pm=PRICE_MAP[item.id];
+    var unit=pm?(mayorista?pm.mayor:pm.sale):item.price;
+    msg+='✦ '+item.name+' x'+item.qty+' — '+fmt(unit*item.qty)+'\n';
+  });
+  var total=cart.reduce(function(a,item){return a+getItemPrice(item)*item.qty;},0);
+  msg+='\n'+(mayorista?'Precio mayorista aplicado':'Precio con 35% OFF aplicado');
+  msg+='\nTOTAL: '+fmt(total);
+  msg+='\n\nTienen stock disponible?';
+  window.open('https://wa.me/5491131098238?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ── Countdown to next Tuesday 23:59 ─────────────────────────────────────────
+function getNextTuesday(){
+  var now=new Date();
+  var day=now.getDay();
+  var diff=((2-day+7)%7)||7;
+  var t=new Date(now);
+  t.setDate(t.getDate()+diff);
+  t.setHours(23,59,59,0);
+  return t;
+}
+var countdownTarget=getNextTuesday();
+function updateCountdown(){
+  var now=new Date();
+  var diff=countdownTarget-now;
+  if(diff<=0){countdownTarget=getNextTuesday();diff=countdownTarget-new Date();}
+  var h=Math.floor(diff/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var s=Math.floor((diff%60000)/1000);
+  var el=document.getElementById('countdownTimer');
+  if(el)el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+// ============================================================
+// PRODUCTS RENDER
+// ============================================================
+var curCat='todos',vis=8,filtered=[];
 
 function renderProducts(){
   var grid=document.getElementById('pgrid');
@@ -343,22 +535,38 @@ function renderProducts(){
       ?('<img src="'+imgSrc+'" alt="'+p.name+'" loading="lazy" onerror="this.style.display=\'none\'">'+'<div class="pimg-placeholder" style="display:none">'+em+'</div>')
       :'<div class="pimg-placeholder">'+em+'</div>';
     var tagsH=p.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('');
+
+    // Prices
+    var pm=PRICE_MAP[p.id];
     var priceH='';
-    if(p.price2){
-      priceH='<div style="font-size:13px;color:var(--text-dim);margin-bottom:4px">'+p.priceNote+': <span style="color:var(--gold);font-size:18px;font-weight:600">'+fmt(p.price)+'</span></div>'
-             +'<div style="font-size:13px;color:var(--text-dim)">'+p.price2Note+': <span style="color:var(--gold);font-size:18px;font-weight:600">'+fmt(p.price2)+'</span></div>';
+    if(pm){
+      priceH='<div class="price-list">'+fmt(pm.list)+'</div>'
+            +'<div class="price-main">'+fmt(pm.sale)+'</div>'
+            +'<div class="price-badge-off">35% OFF</div>';
     } else if(p.price){
       priceH='<div class="price-main">'+fmt(p.price)+'</div>';
-      priceH+=p.priceNote?('<div class="price-special">'+p.priceNote+'</div>'):'';
+      if(p.priceNote)priceH+='<div class="price-special">'+p.priceNote+'</div>';
     }
+
     var card=document.createElement('div');
     card.className='pcard';
     card.innerHTML=bdg
       +'<div class="pimg-wrap">'+imgH+'<div class="poverlay"><button class="obtn" onclick="openM('+p.id+')">Ver detalles</button></div></div>'
-      +'<div class="pinfo"><div class="pbrand">'+p.brand+'</div><div class="pname">'+p.name+'</div>'
-      +'<div class="pnotes">'+p.notes.substring(0,160)+'...</div>'
-      +'<div class="ptags">'+tagsH+'</div><div class="ppricing">'+priceH+'</div>'
-      +'<button class="btn-comprar" onclick="openM('+p.id+')">'+wasvg+' Comprar por WhatsApp</button></div>';
+      +'<div class="pinfo">'
+        +'<div class="pbrand">'+p.brand+'</div>'
+        +'<div class="pname">'+p.name+'</div>'
+        +'<div class="pnotes">'+p.notes.substring(0,120)+'...</div>'
+        +'<div class="ptags">'+tagsH+'</div>'
+        +'<div class="ppricing">'+priceH+'</div>'
+        +'<button class="btn-add-cart" onclick="addToCart('+p.id+')">'
+          +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>'
+          +' Agregar al carrito'
+        +'</button>'
+        +'<button class="btn-comprar" onclick="openM('+p.id+')" style="margin-top:8px;padding:9px;font-size:10px;">'
+          +'<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+          +' Ver detalles'
+        +'</button>'
+      +'</div>';
     grid.appendChild(card);
   });
   var lb=document.getElementById('loadMoreBtn');
@@ -386,23 +594,62 @@ function openM(id){
   var p=PRODUCTS.filter(function(x){return x.id===id;})[0];if(!p)return;
   var g=function(x){return document.getElementById(x);};
   g('mTitle').textContent=p.name;
-  g('mBrand').textContent=p.brand+' - '+(p.cat==='mujer'?'Para Ella':p.cat==='hombre'?'Para El':'Unisex');
+  g('mBrand').textContent=p.brand+' \u00b7 '+(p.cat==='mujer'?'Para Ella':p.cat==='hombre'?'Para \u00c9l':'Unisex');
   g('mNotes').textContent=p.notes;
   if(g('mIdeal'))g('mIdeal').textContent=p.ideal||'';
   var mi=g('mImg');
   if(mi){if(p.imgKey){mi.src=IMGS[p.imgKey];mi.style.display='block';mi.onerror=function(){this.style.display='none';};}else{mi.style.display='none';}}
+  var pm=PRICE_MAP[p.id];
   var mp=g('mPrice'),mt=g('mTransfer'),ms=g('mSpecial');
   if(mp){
-    if(p.price2){mp.innerHTML=fmt(p.price)+' / '+fmt(p.price2);if(mt)mt.textContent='Transferencia desde '+fmt(Math.round(p.price*0.8));if(ms)ms.textContent='';}
-    else if(p.price){mp.textContent=fmt(p.price);if(mt)mt.textContent='';if(ms)ms.textContent=p.priceNote||'';}
+    if(pm){mp.innerHTML=fmt(pm.sale)+' <span style="font-size:14px;text-decoration:line-through;color:var(--text-dim);font-weight:400">'+fmt(pm.list)+'</span>';}
+    else if(p.price){mp.textContent=fmt(p.price);}
   }
-  var wb=g('mWaBtn');if(wb)wb.href=waLink(p);
+  if(mt)mt.textContent='';
+  if(ms)ms.textContent=p.priceNote||'';
+  var wb=g('mWaBtn');
+  if(wb){
+    var msg='Hola! Quiero consultar: '+p.name+' ('+p.brand+'). \u00bfTienen stock?';
+    wb.href='https://wa.me/5491131098238?text='+encodeURIComponent(msg);
+  }
   g('modalOverlay').classList.add('active');
   document.body.style.overflow='hidden';
 }
 function closeMO(e){if(e.target===document.getElementById('modalOverlay'))closeM();}
 function closeM(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeM();closeCartDrawer();}});
+
+// ============================================================
+// FORMULARIO MAYORISTA -> WhatsApp
+// ============================================================
+function submitMayorista(ev){
+  ev.preventDefault();
+  var g=function(id){return document.getElementById(id);};
+  var nombre=(g('mayNombre').value||'').trim();
+  var email=(g('mayEmail').value||'').trim();
+  var tel=(g('mayTel').value||'').trim();
+  var msg=(g('mayMsg').value||'').trim();
+  // Validación mínima
+  if(!nombre||!email||!tel){
+    alert('Por favor, completá nombre, email y teléfono.');
+    return false;
+  }
+  var emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!emailOk){
+    alert('Revisá el correo electrónico ingresado.');
+    g('mayEmail').focus();
+    return false;
+  }
+  var txt='*CONSULTA MAYORISTA — ArPerfum*\n\n';
+  txt+='*Nombre/Negocio:* '+nombre+'\n';
+  txt+='*Email:* '+email+'\n';
+  txt+='*Teléfono:* '+tel+'\n';
+  if(msg)txt+='\n*Mensaje:*\n'+msg+'\n';
+  txt+='\nHola! Me gustaría recibir la lista de precios mayoristas. ¡Gracias!';
+  var url='https://wa.me/5491131098238?text='+encodeURIComponent(txt);
+  window.open(url,'_blank');
+  return false;
+}
 
 (function(){
   var c=document.getElementById('particles');if(!c)return;
@@ -415,3 +662,4 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
 })();
 
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyF);}else{applyF();}
+updateCartUI();

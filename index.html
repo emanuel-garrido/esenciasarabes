@@ -5,20 +5,20 @@
 <!-- SEO -->
 <meta name="description" content="Fragancias árabes originales en Argentina. Perfumes Lattafa, Al Haramain, Armaf, Rasasi y más. Envíos a todo el país. Hasta 12 cuotas sin interés.">
 <meta name="keywords" content="perfumes árabes, fragancias árabes, perfumes orientales, Lattafa, Al Haramain, Armaf, perfumes importados, perfumes originales Argentina">
-<meta name="author" content="ArPerfum M&C Importados">
+<meta name="author" content="ArPerfum">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.fraganciasarabes.com.ar/">
 
 <!-- Open Graph (para compartir en redes sociales) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.fraganciasarabes.com.ar/">
-<meta property="og:title" content="ArPerfum M&C Importados — Fragancias Árabes Originales">
+<meta property="og:title" content="ArPerfum — Fragancias Árabes Originales">
 <meta property="og:description" content="Perfumes árabes originales con envíos a todo Argentina. Lattafa, Al Haramain, Armaf y más. Hasta 12 cuotas sin interés.">
 <meta property="og:image" content="https://www.fraganciasarabes.com.ar/Imagenes/Logo.png">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ArPerfum M&C Importados — Fragancias Árabes">
+<meta name="twitter:title" content="ArPerfum — Fragancias Árabes">
 <meta name="twitter:description" content="Perfumes árabes originales con envíos a todo Argentina.">
 <meta name="twitter:image" content="https://www.fraganciasarabes.com.ar/Imagenes/Logo.png">
 
@@ -26,7 +26,7 @@
 <meta name="google-site-verification" content="googlef635970831b1a6c5">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fragancias Árabes Originales | ArPerfum M&C Importados</title>
+<title>Fragancias Árabes Originales | ArPerfum </title>
 <link rel="icon" type="image/png" href="favicon.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -49,16 +49,16 @@
     <span>Hasta 12 cuotas sin interés con tarjeta de crédito</span>
     <span>Fragancias árabes 100% originales</span>
     <span>Atención personalizada por WhatsApp</span>
+    <span>Precios mayoristas para tu negocio</span>
   </div>
 </div>
 
 <header>
   <div class="header-inner">
     <a href="#inicio" class="logo">
-      <img src="Imagenes/Logo.png" class="logo-img" alt="M&C Importados">
+      <img src="Imagenes/Logo.png" class="logo-img" alt="ArPerfum">
       <div>
         <div class="logo-name">ArPerfum</div>
-        <div class="logo-sub">M&amp;C Importados</div>
       </div>
     </a>
     <div class="search-bar">
@@ -69,8 +69,72 @@
       <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       <span>Consultar</span>
     </a>
+    <!-- Carrito -->
+    <button class="cart-btn" id="cartBtn" onclick="toggleCart()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
   </div>
 </header>
+
+<!-- ─── CART DRAWER ─── -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3 class="cart-title">Tu Carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+
+  <!-- Countdown -->
+  <div class="cart-countdown" id="cartCountdown">
+    <div class="countdown-label">🔥 Oferta de bienvenida — termina en:</div>
+    <div class="countdown-timer" id="countdownTimer">00:00:00</div>
+  </div>
+
+  <!-- Mayorista progress -->
+  <div class="cart-mayorista" id="cartMayorista">
+    <div class="mayorista-text" id="mayoristaTxt">Agregá <strong>3 unidades</strong> para acceder al <strong>precio mayorista</strong></div>
+    <div class="mayorista-bar-wrap">
+      <div class="mayorista-bar" id="mayoristaBar"></div>
+    </div>
+  </div>
+
+  <!-- Items -->
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <p>Tu carrito está vacío</p>
+      <span>Agregá fragancias para continuar</span>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="cart-summary" id="cartSummary" style="display:none">
+    <div class="summary-row">
+      <span>Subtotal</span>
+      <span id="cartSubtotal">$0</span>
+    </div>
+    <div class="summary-row discount" id="discountRow" style="display:none">
+      <span>Descuento 35% OFF</span>
+      <span id="cartDiscount" style="color:#4CAF50"></span>
+    </div>
+    <div class="summary-row mayorista-row" id="mayoristaRow" style="display:none">
+      <span>🏪 Precio Mayorista aplicado</span>
+      <span style="color:#C9A84C">✓</span>
+    </div>
+    <div class="summary-row total">
+      <span>Total</span>
+      <span id="cartTotal">$0</span>
+    </div>
+    <div class="cart-info-banner">
+      🚚 Envío a todo el país · ArPerfum M&amp;C Importados garantiza originalidad
+    </div>
+    <button class="cart-wa-btn" id="cartWaBtn" onclick="checkoutWA()">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Finalizar pedido por WhatsApp
+    </button>
+  </div>
+</div>
 
 <nav>
   <div class="nav-inner">
@@ -80,6 +144,7 @@
     <a href="capilar.html">Belleza Capilar</a>
     <a href="#quienes-somos">Quiénes Somos</a>
     <a href="#como-comprar">Cómo Comprar</a>
+    <a href="#mayorista" class="nav-mayorista">Mayorista</a>
     <a href="#contacto">Contacto</a>
     <!-- Botón hamburguesa (solo mobile) -->
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
@@ -95,6 +160,7 @@
     <a href="capilar.html" onclick="closeMenu()">Belleza Capilar</a>
     <a href="#quienes-somos" onclick="closeMenu()">Quiénes Somos</a>
     <a href="#como-comprar" onclick="closeMenu()">Cómo Comprar</a>
+    <a href="#mayorista" onclick="closeMenu()" class="nav-mayorista">Mayorista</a>
     <a href="#contacto" onclick="closeMenu()">Contacto</a>
   </div>
 </nav>
@@ -108,7 +174,7 @@
     <div class="hero-eyebrow">✦ Colección exclusiva ✦</div>
     <h1 class="hero-title">
       <span class="brand">ArPerfum</span>
-      <span class="sub">M&amp;C Importados</span>
+      
     </h1>
     <p class="hero-desc">El arte del perfume oriental, en tu piel</p>
     <div class="hero-ctas">
@@ -155,7 +221,7 @@
 <section class="about-section" id="quienes-somos">
   <div class="about-inner">
     <div class="about-visual">
-      <div class="about-logo-wrap"><img src="Imagenes/Logo.png" alt="M&C Importados"></div>
+      <div class="about-logo-wrap"><img src="Imagenes/Logo.png" alt="ArPerfum"></div>
     </div>
     <div class="about-text">
       <div class="sec-eyebrow">Quiénes somos</div>
@@ -191,6 +257,124 @@
       <div class="ppill"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Débito / Crédito</div>
       <div class="ppill"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Hasta 12 cuotas sin interés, solo con tarjeta de crédito.</div>
     </div>
+  </div>
+</section>
+
+<!-- ─── MAYORISTA ─── -->
+<section class="mayorista-section" id="mayorista">
+  <div class="mayorista-inner">
+
+    <div class="sec-hdr">
+      <div class="sec-eyebrow">Para revendedores</div>
+      <h2 class="sec-title">Precios Mayoristas <span class="may-title-accent">Para Tu Negocio</span></h2>
+      <div class="sec-div"><div class="div-gem"></div></div>
+      <p class="mayorista-subtitle">Sumá productos originales de alta calidad a tu negocio con precios especiales por volumen.</p>
+    </div>
+
+    <!-- Beneficios -->
+    <div class="mayorista-benefits">
+      <div class="mb-card">
+        <div class="mb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3 class="mb-title">Precios Especiales</h3>
+        <p class="mb-desc">Descuentos por volumen en todos nuestros productos.</p>
+      </div>
+      <div class="mb-card">
+        <div class="mb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h3 class="mb-title">Stock Garantizado</h3>
+        <p class="mb-desc">Disponibilidad constante de productos.</p>
+      </div>
+      <div class="mb-card">
+        <div class="mb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h3 class="mb-title">Mejores Márgenes</h3>
+        <p class="mb-desc">Maximizá tus ganancias con nuestros precios.</p>
+      </div>
+      <div class="mb-card">
+        <div class="mb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3v4zM3 19a2 2 0 0 0 2 2h1v-6H3v4z"/></svg>
+        </div>
+        <h3 class="mb-title">Atención Personalizada</h3>
+        <p class="mb-desc">Asesoramiento directo para tu negocio.</p>
+      </div>
+    </div>
+
+    <!-- Cómo funciona -->
+    <div class="mayorista-how">
+      <h3 class="mh-heading">¿Cómo funciona?</h3>
+      <div class="mayorista-steps">
+        <div class="mh-step">
+          <div class="mh-num">1</div>
+          <div class="mh-title">Contactanos</div>
+          <div class="mh-desc">Completá el formulario o escribinos por WhatsApp.</div>
+        </div>
+        <div class="mh-step">
+          <div class="mh-num">2</div>
+          <div class="mh-title">Recibí la Lista</div>
+          <div class="mh-desc">Te enviamos nuestra lista de precios mayoristas.</div>
+        </div>
+        <div class="mh-step">
+          <div class="mh-num">3</div>
+          <div class="mh-title">Comenzá a Vender</div>
+          <div class="mh-desc">Realizá tu pedido y sumá productos a tu negocio.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom: categorías + formulario -->
+    <div class="mayorista-bottom">
+
+      <!-- Categorías -->
+      <div class="mayorista-cats">
+        <h3 class="mcats-title">Categorías disponibles</h3>
+        <ul class="mcats-list">
+          <li><span class="mcats-check">✓</span> Perfumes Árabes Originales</li>
+          <li><span class="mcats-check">✓</span> Productos Karseell</li>
+          <li><span class="mcats-check">✓</span> Fragancias para Ella</li>
+          <li><span class="mcats-check">✓</span> Fragancias para Él</li>
+          <li><span class="mcats-check">✓</span> Fragancias Unisex</li>
+          <li><span class="mcats-check">✓</span> Cuidado Capilar</li>
+        </ul>
+        <div class="mcats-note">
+          ¿Buscás algo en particular? Contanos y lo conseguimos.
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <div class="mayorista-form-card">
+        <h3 class="mfrm-title">Solicitá tu <span class="mfrm-accent">Lista de Precios</span></h3>
+        <p class="mfrm-sub">Completá el formulario y te contactaremos a la brevedad.</p>
+        <form id="mayoristaForm" onsubmit="submitMayorista(event)" novalidate>
+          <label class="mfrm-label">
+            Nombre *
+            <input type="text" id="mayNombre" required placeholder="Tu nombre o nombre del negocio">
+          </label>
+          <label class="mfrm-label">
+            Correo electrónico *
+            <input type="email" id="mayEmail" required placeholder="tu@email.com">
+          </label>
+          <label class="mfrm-label">
+            Teléfono *
+            <input type="tel" id="mayTel" required placeholder="+54 11 1234-5678">
+          </label>
+          <label class="mfrm-label">
+            Mensaje
+            <textarea id="mayMsg" rows="4" placeholder="Contanos sobre tu negocio y qué productos te interesan..."></textarea>
+          </label>
+          <button type="submit" class="btn-may-wa">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enviar consulta por WhatsApp
+          </button>
+          <p class="mfrm-disclaimer">Al enviar este formulario, te redirigiremos a WhatsApp para continuar la conversación.</p>
+        </form>
+      </div>
+
+    </div>
+
   </div>
 </section>
 
@@ -314,14 +498,14 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="Imagenes/Logo.png" class="footer-logo" alt="M&C">
+      <img src="Imagenes/Logo.png" class="footer-logo" alt="">
       <div class="footer-name">M&amp;C Importados</div>
       <span class="footer-subt">ArPerfum</span>
       <p>Fragancias árabes originales seleccionadas con pasión. Llevamos el arte del perfume oriental a todo Argentina.</p>
     </div>
     <div class="footer-col">
       <h4>Navegación</h4>
-      <a href="#inicio">Inicio</a><a href="#fragancias">Productos</a><a href="#quienes-somos">Quiénes Somos</a><a href="#como-comprar">Cómo Comprar</a><a href="#contacto">Contacto</a>
+      <a href="#inicio">Inicio</a><a href="#fragancias">Productos</a><a href="#quienes-somos">Quiénes Somos</a><a href="#como-comprar">Cómo Comprar</a><a href="#mayorista">Mayorista</a><a href="#contacto">Contacto</a>
     <a href="capilar.html">Cuidado Capilar</a>
     </div>
     <div class="footer-col">

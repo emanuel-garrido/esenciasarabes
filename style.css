@@ -571,3 +571,159 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.08);padding
   .modal-overlay{padding:0;}
   .modal{max-height:100vh;}
 }
+/* ================================================================
+   CARRITO LATERAL
+   ================================================================ */
+.cart-btn{position:relative;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);width:44px;height:44px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.cart-btn:hover{background:rgba(201,168,76,.25);}
+.cart-count{position:absolute;top:-6px;right:-6px;background:var(--purple-light);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2001;opacity:0;pointer-events:none;transition:opacity .3s;}
+.cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-drawer{position:fixed;top:0;right:0;height:100vh;width:400px;max-width:95vw;background:var(--dark2);border-left:1px solid rgba(201,168,76,.15);z-index:2002;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.cart-drawer.open{transform:translateX(0);}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid rgba(201,168,76,.1);flex-shrink:0;}
+.cart-title{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold);}
+.cart-close{background:none;border:1px solid rgba(201,168,76,.2);color:var(--text-dim);width:32px;height:32px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.cart-close:hover{border-color:var(--gold);color:var(--gold);}
+.cart-countdown{background:linear-gradient(135deg,rgba(74,32,96,.6),rgba(123,63,160,.3));border-bottom:1px solid rgba(201,168,76,.1);padding:12px 20px;flex-shrink:0;text-align:center;}
+.countdown-label{font-size:11px;color:var(--cream-dim);letter-spacing:1px;margin-bottom:6px;}
+.countdown-timer{font-family:'Cinzel Decorative',serif;font-size:22px;color:var(--gold);letter-spacing:4px;}
+.cart-mayorista{padding:14px 20px;border-bottom:1px solid rgba(201,168,76,.1);flex-shrink:0;}
+.mayorista-text{font-size:12px;color:var(--cream-dim);margin-bottom:8px;line-height:1.5;}
+.mayorista-bar-wrap{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.mayorista-bar{height:100%;width:0%;background:var(--purple-light);border-radius:3px;transition:width .4s ease,background .4s;}
+.cart-items{flex:1;overflow-y:auto;padding:8px 0;}
+.cart-items::-webkit-scrollbar{width:3px;}
+.cart-items::-webkit-scrollbar-thumb{background:var(--gold-dark);}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:12px;color:var(--text-dim);text-align:center;height:100%;}
+.cart-empty svg{opacity:.3;}
+.cart-empty p{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--cream-dim);}
+.cart-empty span{font-size:12px;}
+.cart-item{display:flex;gap:12px;padding:14px 20px;border-bottom:1px solid rgba(201,168,76,.06);transition:background .2s;}
+.cart-item:hover{background:rgba(201,168,76,.03);}
+.ci-img{width:64px;height:80px;flex-shrink:0;background:var(--dark3);overflow:hidden;}
+.ci-img img{width:100%;height:100%;object-fit:cover;}
+.ci-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--gold-dark);font-size:20px;}
+.ci-info{flex:1;min-width:0;}
+.ci-brand{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.ci-name{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--cream);line-height:1.3;margin-bottom:6px;}
+.ci-prices{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ci-list{font-size:11px;color:var(--text-dim);text-decoration:line-through;}
+.ci-sale{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--gold);}
+.ci-qty{display:flex;align-items:center;gap:6px;}
+.ci-qty button{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);width:26px;height:26px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.ci-qty button:hover{background:rgba(201,168,76,.25);}
+.ci-qty span{font-size:14px;font-weight:600;color:var(--cream);min-width:20px;text-align:center;}
+.ci-del{background:rgba(220,53,69,.1)!important;border-color:rgba(220,53,69,.2)!important;color:#dc3545!important;margin-left:4px;}
+.ci-del:hover{background:rgba(220,53,69,.25)!important;}
+.cart-summary{padding:16px 20px;border-top:1px solid rgba(201,168,76,.1);flex-shrink:0;background:var(--dark);}
+.summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:13px;color:var(--text-dim);}
+.summary-row.total{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold);margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,.15);margin-bottom:12px;}
+.summary-row.discount span:first-child{color:#4CAF50;}
+.summary-row.mayorista-row span:first-child{color:var(--gold);font-size:11px;}
+.cart-info-banner{font-size:11px;color:var(--text-dim);text-align:center;padding:10px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.08);margin-bottom:14px;line-height:1.6;}
+.cart-wa-btn{width:100%;background:#25D366;color:#fff;border:none;padding:16px;font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s;box-shadow:0 4px 20px rgba(37,211,102,.3);}
+.cart-wa-btn:hover{background:#128C7E;}
+.btn-add-cart{width:100%;background:var(--dark3);color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:12px;font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
+.btn-add-cart:hover{background:rgba(201,168,76,.15);border-color:var(--gold);}
+.price-list{font-size:13px;color:var(--text-dim);text-decoration:line-through;margin-bottom:2px;}
+.price-badge-off{display:inline-block;background:var(--purple-light);color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;margin-top:4px;}
+@media(max-width:480px){.cart-drawer{width:100vw;}}
+
+/* ================================================================
+   MAYORISTA
+   ================================================================ */
+.mayorista-section{background:linear-gradient(180deg,var(--black) 0%,var(--dark) 50%,var(--black) 100%);padding:100px 30px;position:relative;overflow:hidden;border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);}
+.mayorista-section::before{content:'';position:absolute;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 5L75 40L40 75L5 40Z' fill='%23C9A84C'/%3E%3C/svg%3E");pointer-events:none;}
+.mayorista-inner{max-width:1300px;margin:0 auto;position:relative;z-index:1;}
+.may-title-accent{color:var(--cream);display:block;font-size:.88em;}
+.mayorista-subtitle{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text-dim);line-height:1.8;margin:22px auto 0;max-width:620px;text-align:center;}
+
+/* Beneficios (4 cards) */
+.mayorista-benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px;}
+.mb-card{background:var(--dark2);border:1px solid rgba(201,168,76,.15);padding:34px 22px;text-align:center;transition:all .3s;position:relative;}
+.mb-card:hover{border-color:rgba(201,168,76,.35);transform:translateY(-3px);background:var(--dark3);}
+.mb-icon{width:54px;height:54px;border-radius:50%;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+.mb-icon svg{width:22px;height:22px;stroke:var(--gold);fill:none;}
+.mb-title{font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.mb-desc{font-size:13px;color:var(--text-dim);line-height:1.65;}
+
+/* Cómo funciona */
+.mayorista-how{background:var(--dark2);border:1px solid rgba(201,168,76,.15);padding:50px 30px;margin-top:46px;text-align:center;}
+.mh-heading{font-family:'Cinzel Decorative',serif;font-size:clamp(20px,2.4vw,28px);color:var(--cream);margin-bottom:36px;}
+.mayorista-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;max-width:900px;margin:0 auto;}
+.mh-step{position:relative;padding:0 14px;}
+.mh-step:not(:last-child)::after{content:'';position:absolute;top:22px;right:-15px;width:30px;height:1px;background:linear-gradient(to right,rgba(201,168,76,.3),rgba(201,168,76,.1));}
+.mh-num{width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--black);font-family:'Cinzel Decorative',serif;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 4px 16px rgba(201,168,76,.25);}
+.mh-title{font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cream);margin-bottom:10px;}
+.mh-desc{font-size:13px;color:var(--text-dim);line-height:1.7;}
+
+/* Bottom (categorías + form) */
+.mayorista-bottom{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:46px;align-items:stretch;}
+
+/* Categorías */
+.mayorista-cats{background:var(--dark2);border:1px solid rgba(201,168,76,.15);padding:36px 30px;display:flex;flex-direction:column;}
+.mcats-title{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold);margin-bottom:22px;text-align:center;}
+.mcats-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;padding:0;margin-bottom:22px;}
+.mcats-list li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--cream-dim);line-height:1.4;}
+.mcats-check{width:20px;height:20px;border-radius:50%;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.mcats-note{margin-top:auto;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--text-dim);text-align:center;padding-top:20px;border-top:1px solid rgba(201,168,76,.1);line-height:1.6;}
+
+/* Formulario */
+.mayorista-form-card{background:var(--dark2);border:1px solid rgba(201,168,76,.15);padding:36px 30px;}
+.mfrm-title{font-family:'Cinzel Decorative',serif;font-size:22px;color:var(--cream);text-align:center;margin-bottom:8px;line-height:1.3;}
+.mfrm-accent{color:var(--gold);}
+.mfrm-sub{font-size:13px;color:var(--text-dim);text-align:center;margin-bottom:26px;}
+.mfrm-label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.mfrm-label input,.mfrm-label textarea{display:block;width:100%;background:var(--dark3);border:1px solid rgba(201,168,76,.18);color:var(--text);padding:11px 14px;margin-top:7px;font-family:'Raleway',sans-serif;font-size:13px;font-weight:400;letter-spacing:.3px;text-transform:none;outline:none;transition:border-color .2s,background .2s;box-sizing:border-box;border-radius:0;}
+.mfrm-label textarea{resize:vertical;min-height:92px;font-family:'Raleway',sans-serif;}
+.mfrm-label input::placeholder,.mfrm-label textarea::placeholder{color:var(--text-dim);opacity:.7;font-size:13px;}
+.mfrm-label input:focus,.mfrm-label textarea:focus{border-color:var(--gold);background:var(--dark2);}
+.mfrm-label input:invalid:not(:placeholder-shown){border-color:rgba(220,53,69,.5);}
+.btn-may-wa{width:100%;background:var(--gold);color:var(--black);border:none;padding:16px;font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-top:4px;}
+.btn-may-wa:hover{background:var(--gold-light);transform:translateY(-2px);}
+.btn-may-wa svg{width:18px;height:18px;fill:var(--black);flex-shrink:0;}
+.mfrm-disclaimer{font-size:11px;color:var(--text-dim);text-align:center;margin-top:14px;line-height:1.6;font-style:italic;}
+
+/* Tag en nav */
+.nav-mayorista{position:relative;}
+.nav-mayorista::before{content:'';position:absolute;top:10px;right:10px;width:6px;height:6px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold);}
+
+/* ─── Responsive tablet (≤ 900px) ─── */
+@media(max-width:900px){
+  .mayorista-section{padding:60px 20px;}
+  .mayorista-benefits{grid-template-columns:repeat(2,1fr);}
+  .mayorista-bottom{grid-template-columns:1fr;}
+  .mayorista-how{padding:40px 22px;}
+  .mh-step:not(:last-child)::after{display:none;}
+  .nav-mayorista::before{display:none;}
+}
+
+/* ─── Responsive mobile (≤ 768px) ─── */
+@media(max-width:768px){
+  .mayorista-section{padding:48px 14px;}
+  .mayorista-subtitle{font-size:15px;}
+  .mayorista-benefits{gap:12px;margin-top:14px;}
+  .mb-card{padding:24px 16px;}
+  .mb-icon{width:48px;height:48px;margin-bottom:14px;}
+  .mb-icon svg{width:20px;height:20px;}
+  .mb-title{font-size:12px;letter-spacing:1.5px;}
+  .mb-desc{font-size:12px;}
+  .mayorista-how{margin-top:30px;padding:34px 18px;}
+  .mayorista-steps{grid-template-columns:1fr;gap:26px;}
+  .mh-heading{margin-bottom:26px;}
+  .mayorista-bottom{margin-top:30px;gap:18px;}
+  .mayorista-cats,.mayorista-form-card{padding:28px 20px;}
+  .mcats-list{grid-template-columns:1fr;gap:11px;}
+  .mcats-title{font-size:18px;margin-bottom:18px;}
+  .mfrm-title{font-size:19px;}
+  .mfrm-label{font-size:10px;margin-bottom:14px;}
+  .mfrm-label input,.mfrm-label textarea{font-size:14px;padding:11px 12px;}
+  .btn-may-wa{font-size:11px;letter-spacing:2px;padding:14px;}
+}
+
+/* ─── Responsive mobile chico (≤ 480px) ─── */
+@media(max-width:480px){
+  .mayorista-benefits{grid-template-columns:1fr;}
+  .mb-card{padding:22px 18px;}
+}
