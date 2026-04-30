@@ -1,27 +1,9 @@
 const WA='5491131098238';
 
 // ============================================================
-// PRECIOS: listPrice = precio de lista (+40%), salePrice = con 35% OFF, mayorPrice = mayorista
+// PRECIOS: cada producto tiene su precio único en el campo `price`
+// (ya no se calcula descuento, ni precio mayorista por cantidad)
 // ============================================================
-const PRICE_MAP={
-  1:{list:116550,sale:75758,mayor:87413},
-  2:{list:116550,sale:75758,mayor:87413},
-  3:{list:116550,sale:75758,mayor:87413},
-  4:{list:116550,sale:75758,mayor:87413},
-  5:{list:87885,sale:57125,mayor:65914},
-  6:{list:87885,sale:57125,mayor:65914},
-  7:{list:87885,sale:57125,mayor:65914},
-  8:{list:112770,sale:73301,mayor:84578},
-  9:{list:87360,sale:56784,mayor:65520},
-  10:{list:100380,sale:65247,mayor:75285},
-  11:{list:103467,sale:67254,mayor:77600},
-  12:{list:80325,sale:52211,mayor:60244},
-  13:{list:119070,sale:77396,mayor:89303},
-  14:{list:96600,sale:62790,mayor:72450},
-  15:{list:490000,sale:318500,mayor:367500},
-};
-
-const MAYORISTA_MIN=3;
 
 const IMGS={
   logo:'Imagenes/Logo.png',
@@ -94,7 +76,7 @@ const PRODUCTS=[
     name: 'Yara Rosa Elixir',
     brand: 'Lattafa',
     cat: 'mujer',       // 'mujer' | 'hombre' | 'unisex'
-    price: 83250,
+    price: 55500,
     notes: 'Frutal y dulce, este perfume es una explosión de alegría. Sus notas de salida de frutas tropicales y vainilla lo hacen ideal para el uso diario.',
     ideal: 'Salidas nocturnas. Dulce y elegante.',
     tags: ['Frutal', 'Floral', 'Nocturno', 'Regalo'],
@@ -108,7 +90,7 @@ const PRODUCTS=[
     name: 'Yara Rosa',
     brand: 'Lattafa',
     cat: 'mujer',       // 'mujer' | 'hombre' | 'unisex'
-    price: 83250,
+    price: 55500,
     notes: 'Orquídea, heliotropo, mandarina, vainilla y sándal. Una toma fresca de Yara, destacando los cítricos y la limpieza.',
     ideal: 'Aromas dulces y suaves todo el día.',
     tags: ['Dulce', 'Floral', 'Diario', 'Regalo'],
@@ -122,7 +104,7 @@ const PRODUCTS=[
     name: 'Yara Candy',
     brand: 'Lattafa',
     cat: 'mujer',       // 'mujer' | 'hombre' | 'unisex'
-    price: 83250,
+    price: 55500,
     notes: 'Grosellas, mandarina, caramelo de frutilla, gardenia y vainilla. Sofisticado con toques florales amaderados.',
     ideal: 'Frutal gourmand dulce y adictiva. Ideal para regalar.',
     tags: ['Dulce', 'Gourmand', 'Frutal', 'Regalo'],
@@ -136,7 +118,7 @@ const PRODUCTS=[
     name: 'Yara Tous',
     brand: 'Lattafa',
     cat: 'mujer',       // 'mujer' | 'hombre' | 'unisex'
-    price: 83250,
+    price: 55500,
     notes: 'Mango, coco, maracuyá, jazmín y vainilla. Una variante cálida y oriental, donde el ámbar toma el protagonismo.',
     ideal: 'Frutal cremosa con estela fresca y radiante.',
     tags: ['Tropical', 'Frutal', 'Verano'],
@@ -192,10 +174,7 @@ const PRODUCTS=[
     name: '9PM',
     brand: 'Afnan',
     cat: 'hombre',       // 'mujer' | 'hombre' | 'unisex'
-    price: 73500,      // precio 60ml
-    priceNote: '100ml',
-    price2: 80550,     // precio 100ml
-    price2Note: '100ml',
+    price: 53700,
     notes: 'Manzana, canela, lavanda, flor de azahar y vainilla. Un aroma magnético y seductor con manzana, canela y lavanda.',
     ideal: 'Gran proyección para salidas nocturnas.',
     tags: ['Frutal', 'Especiado', 'Nocturno'],
@@ -223,7 +202,7 @@ const PRODUCTS=[
     name: 'Club De Nuit Intense Man',
     brand: 'Armaf',
     cat: 'hombre',       // 'mujer' | 'hombre' | 'unisex'
-    price: 71700,
+    price: 64530,
     notes: 'Limón, piña, bergamota, abedul y almizcle. Un clásico moderno, famoso por su apertura cítrica de limón y piña que da paso a un corazón de abedul ahumado.',
     ideal: 'Impresión fuerte para la oficina o salidas nocturnas.',
     tags: ['Citrico', 'Amaderado', 'Intenso'],
@@ -265,7 +244,7 @@ const PRODUCTS=[
     name: 'Odyssey Dubai Chocolat',
     brand: 'Armaf',
     cat: 'unisex',       // 'mujer' | 'hombre' | 'unisex'
-    price: 85050,
+    price: 56700,
     notes: 'Chocolate oscuro, cacao amargo, especias y sándalo. Tentador gourmet con chocolate belga y especias.',
     ideal: 'Chocolate maduro y elegante para eventos nocturnos.',
     tags: ['Chocolate', 'Gourmand', 'Nocturno'],
@@ -279,7 +258,7 @@ const PRODUCTS=[
     name: 'Hawas Pink For Her',
     brand: 'Rasasi',
     cat: 'mujer',       // 'mujer' | 'hombre' | 'unisex'
-    price: 69000,
+    price: 62100,
     notes: 'Manzana, pomelo, granada, jazmín e iris. La edición Pink de Hawas es una vibrante y alegre fragancia frutal-floral, perfecta para el día. Sus notas de salida de manzana y lichi dan paso a un corazón de rosa y jazmín.',
     ideal: 'Femenino con presencia y toque chic.',
     tags: ['Floral', 'Frutal', 'Elegante'],
@@ -328,24 +307,12 @@ var cart=[];
 
 function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR');}
 
-function getPrice(p){
-  var pm=PRICE_MAP[p.id];
-  if(!pm)return{list:p.price,sale:p.price,mayor:p.price};
-  return pm;
-}
-
 function getTotalQty(){
   return cart.reduce(function(a,i){return a+i.qty;},0);
 }
 
-function isMayorista(){
-  return getTotalQty()>=MAYORISTA_MIN;
-}
-
 function getItemPrice(item){
-  var pm=PRICE_MAP[item.id];
-  if(!pm)return item.price;
-  return isMayorista()?pm.mayor:pm.sale;
+  return item.price;
 }
 
 function addToCart(id){
@@ -373,7 +340,6 @@ function changeQty(id,delta){
 
 function updateCartUI(){
   var total=getTotalQty();
-  var mayorista=isMayorista();
 
   // Count badge
   document.getElementById('cartCount').textContent=total;
@@ -391,28 +357,10 @@ function updateCartUI(){
   if(empty)empty.style.display='none';
   if(summary)summary.style.display='block';
 
-  // Mayorista progress bar
-  var pct=Math.min(100,Math.round(total/MAYORISTA_MIN*100));
-  var bar=document.getElementById('mayoristaBar');
-  var txt=document.getElementById('mayoristaTxt');
-  if(bar)bar.style.width=pct+'%';
-  if(txt){
-    if(mayorista){
-      txt.innerHTML='🎉 <strong>¡Precio mayorista activo!</strong> 25% de descuento aplicado';
-      bar.style.background='var(--gold)';
-    } else {
-      var falta=MAYORISTA_MIN-total;
-      txt.innerHTML='Agregá <strong>'+falta+' unidad'+(falta>1?'es':'')+' más</strong> para precio mayorista';
-      bar.style.background='var(--purple-light)';
-    }
-  }
-
   // Render items
   var html='';
   cart.forEach(function(item){
-    var pm=PRICE_MAP[item.id];
-    var unitPrice=pm?(mayorista?pm.mayor:pm.sale):item.price;
-    var listPrice=pm?pm.list:item.price;
+    var unitPrice=item.price;
     var imgSrc=item.imgKey?IMGS[item.imgKey]:null;
     var imgHtml=imgSrc
       ?'<img src="'+imgSrc+'" alt="'+item.name+'" onerror="this.style.display=\'none\'">'
@@ -423,7 +371,6 @@ function updateCartUI(){
         +'<div class="ci-brand">'+item.brand+'</div>'
         +'<div class="ci-name">'+item.name+'</div>'
         +'<div class="ci-prices">'
-          +'<span class="ci-list">'+fmt(listPrice*item.qty)+'</span>'
           +'<span class="ci-sale">'+fmt(unitPrice*item.qty)+'</span>'
         +'</div>'
         +'<div class="ci-qty">'
@@ -437,28 +384,13 @@ function updateCartUI(){
   });
   items.innerHTML=document.getElementById('cartEmpty').outerHTML+html;
 
-  // Totals
-  var subtotal=cart.reduce(function(a,item){
-    var pm=PRICE_MAP[item.id];
-    return a+(pm?pm.list:item.price)*item.qty;
-  },0);
+  // Totals (subtotal y total son iguales: no hay descuentos)
   var totalFinal=cart.reduce(function(a,item){
-    return a+getItemPrice(item)*item.qty;
+    return a+item.price*item.qty;
   },0);
-  var descuento=subtotal-totalFinal;
 
-  document.getElementById('cartSubtotal').textContent=fmt(subtotal);
+  document.getElementById('cartSubtotal').textContent=fmt(totalFinal);
   document.getElementById('cartTotal').textContent=fmt(totalFinal);
-
-  var discRow=document.getElementById('discountRow');
-  var mayRow=document.getElementById('mayoristaRow');
-  if(mayorista){
-    if(discRow)discRow.style.display='none';
-    if(mayRow)mayRow.style.display='flex';
-  } else {
-    if(discRow){discRow.style.display='flex';document.getElementById('cartDiscount').textContent='-'+fmt(descuento);}
-    if(mayRow)mayRow.style.display='none';
-  }
 }
 
 function openCart(){
@@ -479,15 +411,11 @@ function toggleCart(){
 
 function checkoutWA(){
   if(cart.length===0)return;
-  var mayorista=isMayorista();
   var msg='Hola! Quiero hacer el siguiente pedido:\n\n';
   cart.forEach(function(item){
-    var pm=PRICE_MAP[item.id];
-    var unit=pm?(mayorista?pm.mayor:pm.sale):item.price;
-    msg+='✦ '+item.name+' x'+item.qty+' — '+fmt(unit*item.qty)+'\n';
+    msg+='✦ '+item.name+' x'+item.qty+' — '+fmt(item.price*item.qty)+'\n';
   });
-  var total=cart.reduce(function(a,item){return a+getItemPrice(item)*item.qty;},0);
-  msg+='\n'+(mayorista?'Precio mayorista aplicado':'Precio con 35% OFF aplicado');
+  var total=cart.reduce(function(a,item){return a+item.price*item.qty;},0);
   msg+='\nTOTAL: '+fmt(total);
   msg+='\n\nTienen stock disponible?';
   window.open('https://wa.me/5491131098238?text='+encodeURIComponent(msg),'_blank');
@@ -537,16 +465,8 @@ function renderProducts(){
     var tagsH=p.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('');
 
     // Prices
-    var pm=PRICE_MAP[p.id];
-    var priceH='';
-    if(pm){
-      priceH='<div class="price-list">'+fmt(pm.list)+'</div>'
-            +'<div class="price-main">'+fmt(pm.sale)+'</div>'
-            +'<div class="price-badge-off">35% OFF</div>';
-    } else if(p.price){
-      priceH='<div class="price-main">'+fmt(p.price)+'</div>';
-      if(p.priceNote)priceH+='<div class="price-special">'+p.priceNote+'</div>';
-    }
+    var priceH='<div class="price-main">'+fmt(p.price)+'</div>';
+    if(p.priceNote)priceH+='<div class="price-special">'+p.priceNote+'</div>';
 
     var card=document.createElement('div');
     card.className='pcard';
@@ -599,12 +519,8 @@ function openM(id){
   if(g('mIdeal'))g('mIdeal').textContent=p.ideal||'';
   var mi=g('mImg');
   if(mi){if(p.imgKey){mi.src=IMGS[p.imgKey];mi.style.display='block';mi.onerror=function(){this.style.display='none';};}else{mi.style.display='none';}}
-  var pm=PRICE_MAP[p.id];
   var mp=g('mPrice'),mt=g('mTransfer'),ms=g('mSpecial');
-  if(mp){
-    if(pm){mp.innerHTML=fmt(pm.sale)+' <span style="font-size:14px;text-decoration:line-through;color:var(--text-dim);font-weight:400">'+fmt(pm.list)+'</span>';}
-    else if(p.price){mp.textContent=fmt(p.price);}
-  }
+  if(mp&&p.price)mp.textContent=fmt(p.price);
   if(mt)mt.textContent='';
   if(ms)ms.textContent=p.priceNote||'';
   var wb=g('mWaBtn');
